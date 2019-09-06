@@ -102,16 +102,17 @@
 	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 		<div class="container">
 			<div class="panel-body campo-mensagem">
-				<form>
-					<div class="col-md-12">
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Mensagem">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">></button>
-							</span>
-						</div>
+
+				<div class="col-md-12">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Mensagem" id="msg">
+						<input type="hidden" value="<%= apelido %>" id="apelido">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" id="send">></button>
+						</span>
 					</div>
-				</form>
+				</div>
+
 			</div>
 		</div>
 	</nav>		
@@ -123,6 +124,13 @@
 	<script>
 		var socket = io('http://0.0.0.0:4200');
 
+		$('#send').click(function() {
+			socket.emit('msgToServer', {
+				apelido: $('#apelido').val(),
+				msg: $('#msg').val()
+			});
+		});
+
 		socket.on('msgToClient', function(data) {
 			
 			var html = '';
@@ -132,6 +140,8 @@
 				html += '</div>';
 			
 			$('#dialogos').append(html);
+
+			$('#msg').val('').focus();
 		})
 	</script>
 	

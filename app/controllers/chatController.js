@@ -18,5 +18,5 @@ module.exports.startChat = function(application, req, res) {
         msg: 'has join'
     });
 
-    res.render('chat');
+    res.render('chat', { apelido: formData.apelido });
 }
