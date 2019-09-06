@@ -1,9 +1,9 @@
 module.exports = function(application) {
     application.get('/chat', function(req, res) {
-        res.render('chat');
+        application.controllers.chatController.chat(application, req, res);
     });
 
-    application.get('/post', function(req, res) {
-        res.render('chat');
+    application.post('/chat', function(req, res) {
+        application.controllers.chatController.startChat(application, req, res);
     });
 }
