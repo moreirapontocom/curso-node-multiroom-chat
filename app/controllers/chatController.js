@@ -13,5 +13,10 @@ module.exports.startChat = function(application, req, res) {
         return;
     }
 
+    application.get('io').emit('msgToClient', {
+        apelido: formData.apelido,
+        msg: 'has join'
+    });
+
     res.render('chat');
 }
