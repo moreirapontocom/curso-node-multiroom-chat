@@ -1,0 +1,50 @@
+# Docker-compose Node
+# Mantainer Lucas Moreira <moreirapontocom@gmail.com>
+# 
+
+version: "2"
+services:
+  db:
+    image: mysql:5.7
+    container_name: node_mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./volume/_data/:/var/lib/mysql
+    networks:
+      - dev_node
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: curso_node
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+  server:
+    depends_on:
+      - db
+    image: moreirapontocom/node:12.2.0
+    container_name: node
+    restart: always
+    ports:
+      - 4200:4200
+    volumes:
+      - ./volume/html/:/app
+    networks:
+      - dev_node
+    command: /bin/bash -c "nodemon app"
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./volume/_data_mongo/:/data/db
+    networks:
+      - dev_node
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: senha
+networks: 
+  dev_node:
+    driver: bridge
